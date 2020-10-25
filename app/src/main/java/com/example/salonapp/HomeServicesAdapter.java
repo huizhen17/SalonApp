@@ -1,6 +1,7 @@
 package com.example.salonapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView mtvServiceName, mtvServicePrice, mtvServiceTime;
+        ImageView mimageview;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -33,6 +35,7 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
             mtvServiceName = itemView.findViewById(R.id.tvServiceName);
             mtvServicePrice = itemView.findViewById(R.id.tvServicePrice);
             mtvServiceTime = itemView.findViewById(R.id.tvServiceTime);
+            mimageview = itemView.findViewById(R.id.imageView4);
         }
 
     }
@@ -45,10 +48,17 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeServicesAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final HomeServicesAdapter.ViewHolder holder, int position) {
         holder.mtvServiceName.setText(serviceModel.get(position).getServiceName());
         holder.mtvServicePrice.setText(serviceModel.get(position).getServicePrice());
         holder.mtvServiceTime.setText(serviceModel.get(position).getServiceTime());
+        holder.mimageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context,BookAppointment.class);
+                context.startActivity(i);
+            }
+        });
     }
 
     @Override

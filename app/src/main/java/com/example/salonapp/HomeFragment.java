@@ -57,6 +57,7 @@ public class HomeFragment extends Fragment {
         //Set adapter for recycler view
         homeTrackerAdapter = new HomeTrackerAdapter(getContext(), orderList);
         mRvHomeTracker.setAdapter(homeTrackerAdapter);
+
         return v;
     }
 }
