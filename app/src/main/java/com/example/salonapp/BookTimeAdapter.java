@@ -14,10 +14,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHolder> {
-    private String time[];
+    private ArrayList<String> time;
 
     //Create constructor for cart adapter
-    public BookTimeAdapter(String time[]){
+    public BookTimeAdapter(ArrayList<String> time){
         this.time = time;
     }
 
@@ -42,7 +42,7 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull BookTimeAdapter.ViewHolder holder, int position) {
-        final String data = time[position];
+        final String data = time.get(position);
         holder.mtvBookTime.setText(data);
 
         //When time is chosen
@@ -56,6 +56,6 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return time.length;
+        return time.size();
     }
 }

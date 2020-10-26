@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BookAppointment">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/btnBookAppointment"
                 android:layout_width="382dp"
                 android:layout_height="51dp"
                 android:layout_marginBottom="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/button_bg"
                 android:fontFamily="sans-serif-black"
                 android:onClick="btnBookApt_onClick"
@@ -33,10 +31,9 @@
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/mrvBookServiceInfo"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/mrvBookServiceInfo"
                 app:layout_constraintTop_toBottomOf="@+id/mrvBookServiceInfo"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -99,10 +96,10 @@
 
             <TextView
                 android:id="@+id/textView21"
-                android:onClick="txtAddService_OnClick"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/open_sans_light_italic"
+                android:onClick="txtAddService_OnClick"
                 android:text="Add Additional Service"
                 android:textColor="@color/design_default_color_primary"
                 android:textSize="18sp"
@@ -172,10 +169,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView14"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <TextView
+                android:id="@+id/tvEmptySlot"
+                android:layout_width="334dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="24dp"
+                android:fontFamily="@font/open_sans_light_italic"
+                android:text="No available slot "
+                android:textAlignment="textStart"
+                android:textSize="18sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/mrvTimeSlot"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.072"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/mrvTimeSlot"
+                app:layout_constraintVertical_bias="0.0" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/mrvTimeSlot"
                 android:layout_width="385dp"
-                android:layout_height="wrap_content"
+                android:layout_height="190dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/textView18"
@@ -200,7 +214,5 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </ScrollView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+</ScrollView>
