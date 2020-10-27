@@ -46,6 +46,8 @@ class BookServiceAdapter extends RecyclerView.Adapter<BookServiceAdapter.ViewHol
 
         final String price = servicePrice[position];
         holder.mtvBookSerPrice.setText(price);
+
+        //TODO::Pass service & price to new Intent
     }
 
     @Override

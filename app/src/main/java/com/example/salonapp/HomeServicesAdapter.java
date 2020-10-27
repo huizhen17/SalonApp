@@ -56,6 +56,8 @@ public class HomeServicesAdapter extends RecyclerView.Adapter<HomeServicesAdapte
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(context,BookAppointment.class);
+                i.putExtra("serviceName",holder.mtvServiceName.getText().toString());
+                i.putExtra("servicePrice",holder.mtvServicePrice.getText().toString());
                 context.startActivity(i);
             }
         });

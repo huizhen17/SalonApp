@@ -41,7 +41,6 @@ public class BookAppointment extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener mDateSetListener;
     ArrayList<String> results = new ArrayList<>();
     String mark="pm";
-    int availableTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +62,6 @@ public class BookAppointment extends AppCompatActivity {
         final int month = cal.get(Calendar.MONTH);
         final int day = cal.get(Calendar.DAY_OF_MONTH);
         final int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
-
-        //Toast.makeText(this,hourOfDay+"   abc",Toast.LENGTH_SHORT).show();
 
         if(hourOfDay < 15){
             results = getTimeSet(true);
@@ -106,10 +103,20 @@ public class BookAppointment extends AppCompatActivity {
             }
         };
 
+        //When address is clicked
+        mtvBookAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(BookAppointment.this,mtvBookAddress.getText().toString()+"",Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        Bundle bundle = getIntent().getExtras();
+        String name = bundle.getString("serviceName");
+        String price = bundle.getString("servicePrice");
 
-        String serviceName[] = new String[]{"Hair Cut"};
-        String servicePrice[] = new String[]{"35"};
+        String serviceName[] = new String[]{name};
+        String servicePrice[] = new String[]{price};
 
         bookServiceAdapter = new BookServiceAdapter(serviceName,servicePrice);
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false);
@@ -119,6 +126,7 @@ public class BookAppointment extends AppCompatActivity {
     }
 
     public void btnBookApt_onClick(View view) {
+        //TODO::Pass address/date to new Intent
         Toast.makeText(BookAppointment.this,"Order Sent!",Toast.LENGTH_SHORT).show();
     }
 

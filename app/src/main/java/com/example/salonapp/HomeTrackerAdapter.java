@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -25,6 +27,7 @@ public class HomeTrackerAdapter extends RecyclerView.Adapter<HomeTrackerAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus;
+        Button mbtnTrackOrder;
         //TODO::BUTTON ON CLICK
 
         public ViewHolder(@NonNull View itemView) {
@@ -33,6 +36,7 @@ public class HomeTrackerAdapter extends RecyclerView.Adapter<HomeTrackerAdapter.
             mtvOrderNo = itemView.findViewById(R.id.tvOrderNo);
             mtvOrderTime = itemView.findViewById(R.id.tvOrderTime);
             mtvOrderStatus = itemView.findViewById(R.id.tvOrderStatus);
+            mbtnTrackOrder = itemView.findViewById(R.id.btnTrackOrder);
         }
 
     }
@@ -46,10 +50,18 @@ public class HomeTrackerAdapter extends RecyclerView.Adapter<HomeTrackerAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HomeTrackerAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final HomeTrackerAdapter.ViewHolder holder, int position) {
         holder.mtvOrderNo.setText(orderModel.get(position).getOrderNo());
         holder.mtvOrderTime.setText(orderModel.get(position).getOrderTime());
         holder.mtvOrderStatus.setText(orderModel.get(position).getOrderStatus());
+
+        holder.mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO :: Pass info the new Track order intent
+                Toast.makeText(context,holder.mtvOrderStatus.getText().toString()+" ",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

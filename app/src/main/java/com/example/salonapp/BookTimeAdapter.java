@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHolder> {
     private ArrayList<String> time;
+    private boolean clicked=true;
 
     //Create constructor for cart adapter
     public BookTimeAdapter(ArrayList<String> time){
@@ -23,12 +24,15 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView mivTimeBg;
         TextView mtvBookTime;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             //Assign variable
             mtvBookTime = itemView.findViewById(R.id.tvBookTime);
+            mivTimeBg = itemView.findViewById(R.id.ivTimeBg);
+
         }
 
     }
@@ -41,7 +45,7 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookTimeAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BookTimeAdapter.ViewHolder holder, int position) {
         final String data = time.get(position);
         holder.mtvBookTime.setText(data);
 
@@ -49,9 +53,16 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),data,Toast.LENGTH_SHORT).show();
+                if(clicked==true){
+                    Toast.makeText(view.getContext(),data + " selected.",Toast.LENGTH_SHORT).show();
+                    holder.mivTimeBg.setImageResource(R.drawable.selected_bg);
+                    clicked=false;
+
+                    //TODO::Pass time to new Intent
+                }
             }
         });
+
     }
 
     @Override

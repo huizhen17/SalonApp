@@ -11,7 +11,7 @@
 
 
         <ImageView
-            android:id="@+id/imageView8"
+            android:id="@+id/ivTimeBg"
             android:layout_width="104dp"
             android:layout_height="45dp"
             android:layout_marginBottom="8dp"
@@ -33,10 +33,10 @@
             android:fontFamily="sans-serif-medium"
             android:text="10.00am"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
-            app:layout_constraintEnd_toEndOf="@+id/imageView8"
-            app:layout_constraintStart_toStartOf="@+id/imageView8"
-            app:layout_constraintTop_toTopOf="@+id/imageView8" />
+            app:layout_constraintBottom_toBottomOf="@+id/ivTimeBg"
+            app:layout_constraintEnd_toEndOf="@+id/ivTimeBg"
+            app:layout_constraintStart_toStartOf="@+id/ivTimeBg"
+            app:layout_constraintTop_toTopOf="@+id/ivTimeBg" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>
