@@ -127,8 +127,8 @@
 
             <TextView
                 android:id="@+id/textView14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="104dp"
+                android:layout_height="29dp"
                 android:layout_marginTop="8dp"
                 android:text="Address:"
                 android:textColor="@color/design_default_color_on_secondary"
@@ -139,6 +139,20 @@
                 app:layout_constraintStart_toStartOf="@+id/textView10"
                 app:layout_constraintTop_toBottomOf="@+id/textView10"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tvGetCurrentLoc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/open_sans_italic"
+                android:text="Get Current Location!"
+                android:textAllCaps="false"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="16sp"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView14"
+                app:layout_constraintEnd_toEndOf="@+id/tvBookDate"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/textView14" />
 
             <TextView
                 android:id="@+id/tvBookDate"

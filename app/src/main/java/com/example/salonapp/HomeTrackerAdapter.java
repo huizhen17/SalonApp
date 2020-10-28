@@ -1,6 +1,7 @@
 package com.example.salonapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class HomeTrackerAdapter extends RecyclerView.Adapter<HomeTrackerAdapter.
 
         TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus;
         Button mbtnTrackOrder;
-        //TODO::BUTTON ON CLICK
+        //TODO::BUTTON ON CLICK INTENT TO ANOTHER PAGE
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

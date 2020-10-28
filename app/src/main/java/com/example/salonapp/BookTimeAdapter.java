@@ -1,6 +1,7 @@
 package com.example.salonapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +12,18 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHolder> {
+    Context context;
     private ArrayList<String> time;
     private boolean clicked=true;
 
     //Create constructor for cart adapter
-    public BookTimeAdapter(ArrayList<String> time){
+    public BookTimeAdapter(Context context,ArrayList<String> time){
+        this.context = context;
         this.time = time;
     }
 
@@ -59,6 +64,10 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
                     clicked=false;
 
                     //TODO::Pass time to new Intent
+                    Intent i = new Intent("custom-message");
+                    i.putExtra("time",data);
+                    LocalBroadcastManager.getInstance(context).sendBroadcast(i);
+                    //context.startActivity(i);
                 }
             }
         });

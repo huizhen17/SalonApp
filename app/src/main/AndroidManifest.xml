@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.salonapp">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,10 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BookAppointment" android:parentActivityName=".MainActivity" android:label="Book Appointment"></activity>
-        <activity android:name=".SignUpActivity"></activity>
-        <activity android:name=".LoginActivity">
-        </activity>
+        <activity android:name=".AddAddress" android:parentActivityName=".MainActivity" android:label="Edit Address"></activity>
+        <activity
+            android:name=".OrderConfirmation"
+            android:label="Order Confirmation"
+            android:parentActivityName=".BookAppointment" />
+        <activity
+            android:name=".BookAppointment"
+            android:label="Book Appointment"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".SignUpActivity" />
+        <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,5 +32,9 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
 
 </manifest>

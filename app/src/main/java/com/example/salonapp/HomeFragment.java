@@ -19,6 +19,10 @@ public class HomeFragment extends Fragment {
     RecyclerView mRvHomeServices,mRvHomeTracker;
     HomeServicesAdapter homeServicesAdapter;
     HomeTrackerAdapter homeTrackerAdapter;
+    ArrayList<UserDetail> userList;
+    UserAddress userAddress;
+    UserDetail userDetail;
+    ArrayList<UserAddress> userAddressList;
     ArrayList<ServicesDetail> serviceList;
     ArrayList<OrderDetail> orderList;
 
@@ -47,9 +51,15 @@ public class HomeFragment extends Fragment {
         homeServicesAdapter = new HomeServicesAdapter(getContext(), serviceList);
         mRvHomeServices.setAdapter(homeServicesAdapter);
 
+
+        userAddressList = new ArrayList<>();
+        userAddressList.add(new UserAddress("1","Z","","","Lebuh Bukit Jambul, Bukit Jambul","Bayan Lepas","11900","Pulau Pinang"));
+
+        userList = new ArrayList<>();
+        userList.add(new UserDetail("John Smith","john@gmail.com","0123456789","12345678",userAddress,"10.50","dk","dk"));
+
         orderList = new ArrayList<>();
-        orderList.add(new OrderDetail("#123456789","John Smith","0123456789",
-                "Georgetown Penang","24/10/2020","9.30am","Order Pending","45"));
+        orderList.add(new OrderDetail("#123456789",userDetail,"24/10/2020","9.30am","Order Pending","45"));
 
         LinearLayoutManager layoutManager1 = new LinearLayoutManager(
                 getContext(),LinearLayoutManager.VERTICAL,false);

@@ -1,5 +1,7 @@
 package com.example.salonapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 class BookServiceAdapter extends RecyclerView.Adapter<BookServiceAdapter.ViewHolder>{
 
+    Context context;
     private String serviceName[];
     private String servicePrice[];
 
     //Create constructor for cart adapter
-    public BookServiceAdapter(String serviceName[],String servicePrice[]){
+    public BookServiceAdapter(Context context, String serviceName[], String servicePrice[]){
+        this.context = context;
         this.serviceName = serviceName;
         this.servicePrice = servicePrice;
     }
@@ -47,7 +51,6 @@ class BookServiceAdapter extends RecyclerView.Adapter<BookServiceAdapter.ViewHol
         final String price = servicePrice[position];
         holder.mtvBookSerPrice.setText(price);
 
-        //TODO::Pass service & price to new Intent
     }
 
     @Override

@@ -2,19 +2,15 @@ package com.example.salonapp;
 
 public class OrderDetail {
     private String orderNo;
-    private String customerName;
-    private String customerPhone;
-    private String customerAddress;
+    private UserDetail userDetail;
     private String orderDate;
     private String orderTime;
     private String orderStatus;
     private String orderPrice;
 
-    public OrderDetail(String orderNo, String customerName, String customerPhone, String customerAddress, String orderDate, String orderTime, String orderStatus, String orderPrice) {
+    public OrderDetail(String orderNo, UserDetail userDetail, String orderDate, String orderTime, String orderStatus, String orderPrice) {
         this.orderNo = orderNo;
-        this.customerName = customerName;
-        this.customerPhone = customerPhone;
-        this.customerAddress = customerAddress;
+        this.userDetail = userDetail;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -29,28 +25,12 @@ public class OrderDetail {
         this.orderNo = orderNo;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public UserDetail getUserDetail() {
+        return userDetail;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getCustomerPhone() {
-        return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
-    }
-
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
+    public void setUserDetail(UserDetail userDetail) {
+        this.userDetail = userDetail;
     }
 
     public String getOrderDate() {

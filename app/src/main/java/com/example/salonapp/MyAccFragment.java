@@ -1,5 +1,7 @@
 package com.example.salonapp;
 
+import android.content.Intent;
+import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,58 +9,37 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MyAccFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MyAccFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public MyAccFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MyAccFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MyAccFragment newInstance(String param1, String param2) {
-        MyAccFragment fragment = new MyAccFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    TextView mtvUsername, mtvUserPhone, mtvUserEmail, mtvUserAddress;
+    ImageView mivEditAdd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_acc, container, false);
+        View v = inflater.inflate(R.layout.fragment_my_acc,container,false);
+        mtvUsername = v.findViewById(R.id.tvUserName);
+        mtvUserEmail = v.findViewById(R.id.tvUserEmail);
+        mtvUserPhone = v.findViewById(R.id.tvUserPhone);
+        mtvUserAddress = v.findViewById(R.id.tvUserAddress);
+        mivEditAdd = v.findViewById(R.id.ivEditAddress);
+
+        mivEditAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(),AddAddress.class);
+                startActivity(i);
+                Toast.makeText(getContext(),"Edit Address", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        return v;
     }
 }
