@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +38,13 @@ import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -52,28 +59,23 @@ import java.util.Locale;
 
 public class BookAppointment extends AppCompatActivity {
 
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView mtvBookDate, mtvBookAddress, mtvEmptySlot,mtvGetCurrentLoc;
     RecyclerView mrvService;
     RecyclerView mrvTime;
     BookTimeAdapter bookTimeAdapter;
     BookServiceAdapter bookServiceAdapter;
-    Dialog addServiceDialog;
+    Dialog addServiceDialog,editAddressDialog;
     CheckBox mchkBoxCut, mchkBoxStyling, mchkBoxColor, mchkBoxFacial, mchkBoxMakeUp;
-    Button mbtnAddService, mbtnCanService, mbtnBookAppointment;
+    EditText metAddress;
+    Button mbtnAddService, mbtnCanService, mbtnBookAppointment,mbtnConfirm,mbtnCanEdit;
     DatePickerDialog.OnDateSetListener mDateSetListener;
     ArrayList<String> results = new ArrayList<>();
-    String mark = "pm", name = "", price = "", time = "";
-    String latitude, longtitude;
-
+    String mark = "pm", name = "", price = "", time = "",userID;
+    String latitude, longitude;
     FusedLocationProviderClient fusedLocationProviderClient;
 
-    private boolean gps_enable = false;
-    private boolean network_enable = false;
-
-    //To generate address
-    Geocoder geocoder;
-    List<Address> myaddress;
-    String address1="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,16 +83,136 @@ public class BookAppointment extends AppCompatActivity {
         setContentView(R.layout.activity_book_appointment);
 
         addServiceDialog = new Dialog(this);
+        editAddressDialog = new Dialog(this);
 
         mtvBookDate = findViewById(R.id.tvBookDate);
         mtvBookAddress = findViewById(R.id.tvBookAddress);
-
         mtvEmptySlot = findViewById(R.id.tvEmptySlot);
-
         mrvTime = findViewById(R.id.mrvTimeSlot);
         mrvService = findViewById(R.id.mrvBookServiceInfo);
         mbtnBookAppointment = findViewById(R.id.btnBookAppointment);
 
+        //get user select date
+        currentDate();
+
+        //Retrieve address from db
+        userID = mAuth.getCurrentUser().getUid();
+        DocumentReference user = db.collection("userDetail").document(userID);
+        user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String address = documentSnapshot.getString("address");
+                mtvBookAddress.setText(address);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(BookAppointment.this,"Try again later",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //When address is clicked
+        mtvBookAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Intent i = new Intent(BookAppointment.this, AddAddress.class);
+                //startActivity(i);
+                editAddressDialog.setContentView(R.layout.activity_address_dialog);
+                editAddressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                editAddressDialog.show();
+                editAddressDialog.setCancelable(false);
+
+                metAddress = editAddressDialog.findViewById(R.id.etAddress);
+                mbtnConfirm = editAddressDialog.findViewById(R.id.btnDoneEdit);
+                mbtnCanEdit = editAddressDialog.findViewById(R.id.btnCancelEdit);
+
+                metAddress.setText(mtvBookAddress.getText().toString());
+
+
+                mbtnConfirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mtvBookAddress.setText(metAddress.getText().toString());
+                        //TODO::Add Geocoding API
+
+                        editAddressDialog.dismiss();
+                    }
+                });
+
+                mbtnCanEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        editAddressDialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        Bundle bundle = getIntent().getExtras();
+        name = bundle.getString("serviceName");
+        price = bundle.getString("servicePrice");
+
+        String serviceName[] = new String[]{name};
+        String servicePrice[] = new String[]{price};
+
+        bookServiceAdapter = new BookServiceAdapter(this, serviceName, servicePrice);
+        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        mrvService.setLayoutManager(layoutManager1);
+        mrvService.setAdapter(bookServiceAdapter);
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
+                new IntentFilter("custom-message"));
+
+        //Initialize FLPC
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        mtvGetCurrentLoc = findViewById(R.id.tvGetCurrentLoc);
+        mtvGetCurrentLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Check permission
+                if(ActivityCompat.checkSelfPermission(BookAppointment.this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    //when permission granted
+                    getlocation();
+                }else{
+                    //when permission denied
+                    ActivityCompat.requestPermissions(BookAppointment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
+                }
+            }
+        });
+
+
+    }
+
+    private void getlocation(){
+        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                //Initialize location
+                Location location = task.getResult();
+                if(location!=null){
+                    //Initialize geocoder
+                    Geocoder geocoder = new Geocoder(BookAppointment.this,Locale.getDefault());
+                    double lat = location.getLatitude();
+                    double lot = location.getLongitude();
+
+                    latitude = String.valueOf(lat);
+                    longitude = String.valueOf(lot);
+
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                        String fullAddress = addresses.get(0).getAddressLine(0);
+                        mtvBookAddress.setText(fullAddress);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
+    }
+
+    public void currentDate(){
         final Calendar cal = Calendar.getInstance();
         final int year = cal.get(Calendar.YEAR);
         final int month = cal.get(Calendar.MONTH);
@@ -138,74 +260,6 @@ public class BookAppointment extends AppCompatActivity {
                 mtvBookDate.setText(date);
             }
         };
-
-        //When address is clicked
-        mtvBookAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Intent i = new Intent(BookAppointment.this, AddAddress.class);
-                //startActivity(i);
-                Toast.makeText(BookAppointment.this, mtvBookAddress.getText().toString() + "", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Bundle bundle = getIntent().getExtras();
-        name = bundle.getString("serviceName");
-        price = bundle.getString("servicePrice");
-
-        String serviceName[] = new String[]{name};
-        String servicePrice[] = new String[]{price};
-
-        bookServiceAdapter = new BookServiceAdapter(this, serviceName, servicePrice);
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
-        mrvService.setLayoutManager(layoutManager1);
-        mrvService.setAdapter(bookServiceAdapter);
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver,
-                new IntentFilter("custom-message"));
-
-        //Initialize FLPC
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        mtvGetCurrentLoc = findViewById(R.id.tvGetCurrentLoc);
-        mtvGetCurrentLoc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Check permission
-                if(ActivityCompat.checkSelfPermission(BookAppointment.this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                    //when permission granted
-                    getlocation();
-                }else{
-                    //when permission denied
-                    ActivityCompat.requestPermissions(BookAppointment.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},44);
-                }
-                Toast.makeText(getApplicationContext(), address1+"Get current location!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-    }
-
-    private void getlocation(){
-        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-            @Override
-            public void onComplete(@NonNull Task<Location> task) {
-                //Initialize location
-                Location location = task.getResult();
-                if(location!=null){
-                    //Initialize geocoder
-                    Geocoder geocoder = new Geocoder(BookAppointment.this,Locale.getDefault());
-                    try {
-                        List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                        String fullAddress = addresses.get(0).getAddressLine(0);
-                        mtvBookAddress.setText(fullAddress);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
     }
 
     public BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -218,13 +272,14 @@ public class BookAppointment extends AppCompatActivity {
 
 
     public void btnBookApt_onClick(View view) {
-        //TODO::Pass address/date to new Intent
         Intent i = new Intent(BookAppointment.this, OrderConfirmation.class);
         i.putExtra("address", mtvBookAddress.getText().toString());
         i.putExtra("date", mtvBookDate.getText().toString());
         i.putExtra("serviceName", name);
         i.putExtra("servicePrice", price);
         i.putExtra("time", time);
+        i.putExtra("latitude", latitude);
+        i.putExtra("longitude", longitude);
         startActivity(i);
         finish();
     }

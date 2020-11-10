@@ -1,20 +1,28 @@
 package com.example.salonapp;
 
-public class UserAddress {
+import java.io.Serializable;
+
+public class UserAddress implements Serializable {
     private String houseNo;
     private String houseBlock;
     private String houseLevel;
     private String houseBuilding;
+    private String houseGarden;
     private String houseStreet;
     private String houseCity;
     private String housePostcode;
     private String houseState;
 
-    public UserAddress(String houseNo, String houseBlock, String houseLevel, String houseBuilding, String houseStreet, String houseCity, String housePostcode, String houseState) {
+    public UserAddress() {
+        this("","","","","","","","","");
+    }
+
+    public UserAddress(String houseNo, String houseBlock, String houseLevel, String houseBuilding, String houseGarden, String houseStreet, String houseCity, String housePostcode, String houseState) {
         this.houseNo = houseNo;
         this.houseBlock = houseBlock;
         this.houseLevel = houseLevel;
         this.houseBuilding = houseBuilding;
+        this.houseGarden = houseGarden;
         this.houseStreet = houseStreet;
         this.houseCity = houseCity;
         this.housePostcode = housePostcode;
@@ -53,6 +61,14 @@ public class UserAddress {
         this.houseBuilding = houseBuilding;
     }
 
+    public String getHouseGarden() {
+        return houseGarden;
+    }
+
+    public void setHouseGarden(String houseGarden) {
+        this.houseGarden = houseGarden;
+    }
+
     public String getHouseStreet() {
         return houseStreet;
     }
@@ -85,10 +101,15 @@ public class UserAddress {
         this.houseState = houseState;
     }
 
-    @Override
-    public String toString() {
-        return  houseNo + ", " + houseBlock + "-" + houseLevel + ", " + houseBuilding +
-                ", " + houseStreet + ", " + houseCity + '\'' + ", " + housePostcode  +
-                ", " + houseState ;
+    public String generateAddress() {
+        if(getHouseBlock().equals("")){
+            return  getHouseNo() + ", " + getHouseStreet() + ", " + getHouseGarden() + ", "+ getHousePostcode() + ", " + getHouseCity()  +
+                    ", " + getHouseState() + ", Malaysia";
+        }
+        else {
+            return  getHouseNo() + ", " + getHouseBlock() + "-" + getHouseLevel() + ", " + getHouseBuilding() +
+                    ", " + getHouseStreet() + ", " + getHouseGarden() + ", "+ getHousePostcode() + ", " + getHouseCity()  +
+                    ", " + getHouseState() + ", Malaysia123";
+        }
     }
 }

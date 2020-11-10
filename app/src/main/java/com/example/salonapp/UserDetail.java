@@ -7,18 +7,14 @@ public class UserDetail {
     private String password;
     private UserAddress address;
     private String credit;
-    private String latitude;
-    private String longtitude;
 
-    public UserDetail(String name, String email, String phoneNo, String password, UserAddress address, String credit, String latitude, String longtitude) {
+    public UserDetail(String name, String email, String phoneNo, String password, UserAddress address, String credit) {
         this.name = name;
         this.email = email;
         this.phoneNo = phoneNo;
         this.password = password;
         this.address = address;
         this.credit = credit;
-        this.latitude = latitude;
-        this.longtitude = longtitude;
     }
 
     public String getName() {
@@ -69,19 +65,4 @@ public class UserDetail {
         this.credit = credit;
     }
 
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(String latitude) {
-        this.latitude = latitude;
-    }
-
-    public String getLongtitude() {
-        return longtitude;
-    }
-
-    public void setLongtitude(String longtitude) {
-        this.longtitude = longtitude;
-    }
 }

@@ -2,6 +2,8 @@ package com.example.salonapp;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,21 +12,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView mRvHomeServices,mRvHomeTracker;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus;
+    Button mbtnTrackOrder;
+    ImageView mivWalletScan, mivWalletPay, mivWalletReload;
+    RecyclerView mRvHomeServices;
     HomeServicesAdapter homeServicesAdapter;
-    HomeTrackerAdapter homeTrackerAdapter;
-    ArrayList<UserDetail> userList;
-    UserAddress userAddress;
-    UserDetail userDetail;
-    ArrayList<UserAddress> userAddressList;
     ArrayList<ServicesDetail> serviceList;
     ArrayList<OrderDetail> orderList;
+    String userID,orderID;
+    int counter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,8 +52,15 @@ public class HomeFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home,container,false);
+
+        mivWalletScan = v.findViewById(R.id.ivWalletScan);
+        mivWalletPay = v.findViewById(R.id.ivWalletPay);
+        mivWalletReload = v.findViewById(R.id.ivWalletReload);
         mRvHomeServices = v.findViewById(R.id.mrvHomeFeatures);
-        mRvHomeTracker = v.findViewById(R.id.mrvTrackOrder);
+        mtvOrderNo = v.findViewById(R.id.tvOrderNo);
+        mtvOrderTime = v.findViewById(R.id.tvOrderTime);
+        mtvOrderStatus = v.findViewById(R.id.tvOrderStatus);
+        mbtnTrackOrder = v.findViewById(R.id.btnTrackOrder);
 
         serviceList = new ArrayList<>();
         serviceList.add(new ServicesDetail("Hair Cut","45","35"));
@@ -52,22 +79,76 @@ public class HomeFragment extends Fragment {
         mRvHomeServices.setAdapter(homeServicesAdapter);
 
 
-        userAddressList = new ArrayList<>();
-        userAddressList.add(new UserAddress("1","Z","","","Lebuh Bukit Jambul, Bukit Jambul","Bayan Lepas","11900","Pulau Pinang"));
+        userID = mAuth.getCurrentUser().getUid();
+        CollectionReference collectionReference = db.collection("userDetail").document(userID).collection("orderDetail");
+        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error==null) {
+                    if (value.isEmpty()){
+                        mbtnTrackOrder.setVisibility(View.VISIBLE);
+                        mtvOrderNo.setVisibility(View.VISIBLE);
+                        mtvOrderStatus.setVisibility(View.VISIBLE);
+                        mtvOrderTime.setVisibility(View.VISIBLE);
+                    }else {
+                        for (QueryDocumentSnapshot document : value) {
+                            String id = document.getId();
+                            String status = (String) document.getString("orderStatus").toUpperCase();
+                            String time = (String) document.getString("orderTime");
 
-        userList = new ArrayList<>();
-        userList.add(new UserDetail("John Smith","john@gmail.com","0123456789","12345678",userAddress,"10.50","dk","dk"));
+                            mtvOrderNo.setText(id);
+                            mtvOrderStatus.setText(status);
+                            mtvOrderTime.setText(time);
 
-        orderList = new ArrayList<>();
-        orderList.add(new OrderDetail("#123456789",userDetail,"24/10/2020","9.30am","Order Pending","45"));
+                            //If rider OTW user can track the rider location
+                            if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                                mbtnTrackOrder.setVisibility(View.VISIBLE);
+                            }else{
+                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                    }
 
-        LinearLayoutManager layoutManager1 = new LinearLayoutManager(
-                getContext(),LinearLayoutManager.VERTICAL,false);
-        mRvHomeTracker.setLayoutManager(layoutManager1);
-        //Set adapter for recycler view
-        homeTrackerAdapter = new HomeTrackerAdapter(getContext(), orderList);
-        mRvHomeTracker.setAdapter(homeTrackerAdapter);
+                }else
+                    Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+        //When track button is clicked
+        mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //when wallet is on clicked
+        mivWalletScan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Scan",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mivWalletPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Pay",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mivWalletReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Reload",Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
         return v;
     }
+
 }

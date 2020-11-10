@@ -74,7 +74,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/open_sans_italic"
-            android:text="John Smith"
+            android:text=""
             android:textColor="@color/cardview_dark_background"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView10"
@@ -91,7 +91,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/open_sans_italic"
-            android:text="john@gmail.com"
+            android:text=""
             android:textColor="@color/cardview_dark_background"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView11"
@@ -108,7 +108,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/open_sans_italic"
-            android:text="012 345 6789"
+            android:text=""
             android:textColor="@color/cardview_dark_background"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView12"
@@ -126,7 +126,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="1-Z, Lebuh Bukit Jambul, Bukit Jambul, 11900 Bayan Lepas, Pulau Pinang"
+            android:text="Add Address"
             android:textColor="@color/cardview_dark_background"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView14"
@@ -208,6 +208,26 @@
             app:layout_constraintStart_toEndOf="@+id/textView36"
             app:layout_constraintTop_toTopOf="@+id/textView36"
             app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/btnLogOut"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/button_bg"
+            android:fontFamily="sans-serif-black"
+            android:text="Log out"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView14"
+            app:layout_constraintStart_toStartOf="@+id/imageView14"
+            app:layout_constraintTop_toBottomOf="@+id/imageView14"
+            app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

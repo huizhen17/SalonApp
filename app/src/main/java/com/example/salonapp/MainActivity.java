@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -15,7 +16,7 @@ import java.util.Deque;
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
-    Deque<Integer> integerDeque = new ArrayDeque<>(4);
+    Deque<Integer> integerDeque = new ArrayDeque<>(3);
     boolean flag = true;
 
     @Override
@@ -57,14 +58,11 @@ public class MainActivity extends AppCompatActivity {
             case  R.id.nav_home:
                 bottomNavigationView.getMenu().getItem(0).setChecked(true);
                 return new HomeFragment();
-            case  R.id.nav_not:
-                bottomNavigationView.getMenu().getItem(1).setChecked(true);
-                return new NoticeFragment();
             case  R.id.nav_his:
-                bottomNavigationView.getMenu().getItem(2).setChecked(true);
+                bottomNavigationView.getMenu().getItem(1).setChecked(true);
                 return new HistoryFragment();
             case  R.id.nav_acc:
-                bottomNavigationView.getMenu().getItem(3).setChecked(true);
+                bottomNavigationView.getMenu().getItem(2).setChecked(true);
                 return new MyAccFragment();
         }
 
@@ -75,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment,fragment,fragment.getClass().getSimpleName())
-                .commit();
+                .commitNow();
     }
 
     @Override
@@ -86,5 +84,10 @@ public class MainActivity extends AppCompatActivity {
         }else{
             finish();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

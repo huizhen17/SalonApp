@@ -6,10 +6,6 @@
         android:title="Home"
         android:icon="@drawable/ic_bn_home"/>
     <item
-        android:id="@+id/nav_not"
-        android:icon="@drawable/ic_bn_not"
-        android:title="Notification"/>
-    <item
         android:id="@+id/nav_his"
         android:icon="@drawable/ic_bn_history"
         android:title="History"/>

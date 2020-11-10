@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.salonapp">
 
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddAddress" android:parentActivityName=".MainActivity" android:label="Edit Address"></activity>
+        <activity android:name=".TopUpActivity"></activity>
+        <activity
+            android:name=".OrderSummary"
+            android:label="Payment Confirmation"
+            android:parentActivityName=".OrderConfirmation" />
+        <activity
+            android:name=".AddAddress"
+            android:label="Edit Address"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".OrderConfirmation"
             android:label="Order Confirmation"
@@ -19,13 +31,14 @@
             android:label="Book Appointment"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
         </activity>
 
         <meta-data
@@ -33,8 +46,5 @@
             android:resource="@array/preloaded_fonts" />
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
 
 </manifest>
