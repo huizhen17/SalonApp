@@ -155,6 +155,21 @@
                     app:layout_constraintTop_toBottomOf="@+id/mrvHomeFeatures"
                     app:layout_constraintVertical_bias="0.0" />
 
+                <TextView
+                    android:id="@+id/tvContactRider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="@font/open_sans_semibold_italic"
+                    android:text="Contact Rider"
+                    android:textColor="@color/design_default_color_primary_variant"
+                    android:textSize="18sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/ivPhone" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="410dp"
                     android:layout_height="147dp"
@@ -303,6 +318,18 @@
                     app:layout_constraintStart_toStartOf="@+id/textView7"
                     app:layout_constraintTop_toBottomOf="@+id/textView7"
                     app:layout_constraintVertical_bias="0.044" />
+
+                <ImageView
+                    android:id="@+id/ivPhone"
+                    android:layout_width="29dp"
+                    android:layout_height="27dp"
+                    android:src="@drawable/ic_bn_phone"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                    app:layout_constraintEnd_toEndOf="@+id/mrvHomeFeatures"
+                    app:layout_constraintHorizontal_bias="0.423"
+                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/textView8"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

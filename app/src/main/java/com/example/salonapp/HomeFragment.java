@@ -36,9 +36,9 @@ public class HomeFragment extends Fragment {
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus;
+    TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus,mtvContact;
     Button mbtnTrackOrder;
-    ImageView mivWalletScan, mivWalletPay, mivWalletReload;
+    ImageView mivWalletScan, mivWalletPay, mivWalletReload,mivPhone;
     RecyclerView mRvHomeServices;
     HomeServicesAdapter homeServicesAdapter;
     ArrayList<ServicesDetail> serviceList;
@@ -61,6 +61,8 @@ public class HomeFragment extends Fragment {
         mtvOrderTime = v.findViewById(R.id.tvOrderTime);
         mtvOrderStatus = v.findViewById(R.id.tvOrderStatus);
         mbtnTrackOrder = v.findViewById(R.id.btnTrackOrder);
+        mivPhone = v.findViewById(R.id.ivPhone);
+        mtvContact = v.findViewById(R.id.tvContactRider);
 
         serviceList = new ArrayList<>();
         serviceList.add(new ServicesDetail("Hair Cut","45","35"));
@@ -103,8 +105,12 @@ public class HomeFragment extends Fragment {
                             //If rider OTW user can track the rider location
                             if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
                                 mbtnTrackOrder.setVisibility(View.VISIBLE);
+                                mivPhone.setVisibility(View.VISIBLE);
+                                mtvContact.setVisibility(View.VISIBLE);
                             }else{
                                 mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                                mivPhone.setVisibility(View.INVISIBLE);
+                                mtvContact.setVisibility(View.INVISIBLE);
                             }
                         }
                     }
@@ -115,15 +121,27 @@ public class HomeFragment extends Fragment {
         });
 
 
-
+        //TODO::Messaging??
         //When track button is clicked
         mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
+                if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                    //TODO::Get worker ID get worker latitude & longtitude
+                    //TODO:: Intent to waze app
+                }else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                    //TODO::Intent to payment
+                }
             }
         });
 
+        mtvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Contact Rider",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         //when wallet is on clicked
         mivWalletScan.setOnClickListener(new View.OnClickListener() {

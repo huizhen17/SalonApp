@@ -1,6 +1,7 @@
 package com.example.salonapp;
 
 public class OrderDetail {
+    private String orderID;
     private String orderDate;
     private String orderTime;
     private String orderStatus;
@@ -11,11 +12,8 @@ public class OrderDetail {
     private String orderLink;
     private String orderWorkerID;
 
-    public OrderDetail(){
-        this("","","","","","","","","");
-    }
-
-    public OrderDetail(String orderDate, String orderTime, String orderStatus, String orderPrice, String orderLatitude, String orderLongitude, String orderAddress, String orderLink, String orderWorkerID) {
+    public OrderDetail(String orderID, String orderDate, String orderTime, String orderStatus, String orderPrice, String orderLatitude, String orderLongitude, String orderAddress, String orderLink, String orderWorkerID) {
+        this.orderID = orderID;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
@@ -25,6 +23,14 @@ public class OrderDetail {
         this.orderAddress = orderAddress;
         this.orderLink = orderLink;
         this.orderWorkerID = orderWorkerID;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
     public String getOrderDate() {

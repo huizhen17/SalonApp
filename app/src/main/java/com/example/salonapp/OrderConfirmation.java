@@ -48,6 +48,7 @@ public class OrderConfirmation extends AppCompatActivity {
         latitude = bundle.getString("latitude",latitude);
         longitude = bundle.getString("longitude",longitude);
 
+        mtvMyOrderNo.setText(orderID);
         mtvMyOrderDate.setText(date);
         mtvMyOrderTime.setText(time);
         mtvMyOrderAddress.setText(address);
@@ -62,7 +63,8 @@ public class OrderConfirmation extends AppCompatActivity {
         Toast.makeText(OrderConfirmation.this,"Order Sent!",Toast.LENGTH_SHORT).show();
         status = "pending";
 
-        OrderDetail orderDetail = new OrderDetail(date,time,status,amount,latitude,longitude,address,link,workerID);
+        Toast.makeText(OrderConfirmation.this,"Order ID:" + orderID,Toast.LENGTH_SHORT).show();
+        OrderDetail orderDetail = new OrderDetail(orderID,date,time,status,amount,latitude,longitude,address,link,workerID);
 
         //Save order detail to firebase
         DocumentReference documentReference = db.collection("userDetail").document(userID).collection("orderDetail").document(orderID);
@@ -83,6 +85,6 @@ public class OrderConfirmation extends AppCompatActivity {
         newBundle.putString("orderID", orderID);
         HomeFragment objects = new HomeFragment();
         objects.setArguments(newBundle);
-
+        finish();
     }
 }
