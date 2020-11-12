@@ -20,7 +20,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     Context context;
     //TODO::Adapter for history
-    private ArrayList<OrderDetail> historyList;
+    ArrayList<OrderDetail> historyList;
     //private boolean clicked=true;
 
     //Create constructor for cart adapter
@@ -53,10 +53,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
-        //holder.mreceiptID.setText(historyList.get(position).getOrderID());
-        //holder.mreceiptPrice.setText(historyList.get(position).getOrderPrice());
+        holder.mreceiptID.setText(historyList.get(position).getOrderID());
+        holder.mreceiptPrice.setText(historyList.get(position).getOrderPrice());
 
-        //When time is chosen
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

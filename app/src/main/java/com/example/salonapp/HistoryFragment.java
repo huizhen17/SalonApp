@@ -28,11 +28,12 @@ public class HistoryFragment extends Fragment {
         mrvHistory = v.findViewById(R.id.rvHistory);
 
         orderDetails = new ArrayList<>();
-        orderDetails.add(new OrderDetail("#123123123","","","","","","","","",""));
+        orderDetails.add(new OrderDetail("#123123123","","","","123.00","","","","",""));
+        orderDetails.add(new OrderDetail("#12354523","","","","100.00","","","","",""));
 
         //Design Horizontal Layout
         LinearLayoutManager layoutManager = new LinearLayoutManager(
-                getContext(),LinearLayoutManager.HORIZONTAL,false);
+                getContext(),LinearLayoutManager.VERTICAL,false);
         mrvHistory.setLayoutManager(layoutManager);
 
         //TODO::History Adapter
