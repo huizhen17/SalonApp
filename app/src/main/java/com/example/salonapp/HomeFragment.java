@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment {
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView mtvOrderNo, mtvOrderTime, mtvOrderStatus,mtvContact;
-    Button mbtnTrackOrder;
+    Button mbtnTrackOrder, mbtnPayment;
     ImageView mivWalletScan, mivWalletPay, mivWalletReload,mivPhone;
     RecyclerView mRvHomeServices;
     HomeServicesAdapter homeServicesAdapter;
@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
         mtvOrderTime = v.findViewById(R.id.tvOrderTime);
         mtvOrderStatus = v.findViewById(R.id.tvOrderStatus);
         mbtnTrackOrder = v.findViewById(R.id.btnTrackOrder);
+        mbtnPayment = v.findViewById(R.id.btnPayment);
         mivPhone = v.findViewById(R.id.ivPhone);
         mtvContact = v.findViewById(R.id.tvContactRider);
 
@@ -106,16 +107,19 @@ public class HomeFragment extends Fragment {
                             //If rider OTW user can track the rider location
                             if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
                                 mbtnTrackOrder.setVisibility(View.VISIBLE);
+                                mbtnPayment.setVisibility(View.INVISIBLE);
                                 mivPhone.setVisibility(View.VISIBLE);
                                 mtvContact.setVisibility(View.VISIBLE);
                             }
                             else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
-                                mbtnTrackOrder.setVisibility(View.VISIBLE);
+                                mbtnPayment.setVisibility(View.VISIBLE);
+                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
                                 mivPhone.setVisibility(View.INVISIBLE);
                                 mtvContact.setVisibility(View.INVISIBLE);
-                                mbtnTrackOrder.setText("Payment");
+                                //mbtnTrackOrder.setText("Payment");
                             } else{
                                 mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                                mbtnPayment.setVisibility(View.INVISIBLE);
                                 mivPhone.setVisibility(View.INVISIBLE);
                                 mtvContact.setVisibility(View.INVISIBLE);
                             }
@@ -137,7 +141,15 @@ public class HomeFragment extends Fragment {
                 if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
                     //TODO::Get worker ID get worker latitude & longtitude
                     //TODO:: Intent to waze app
-                }else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                }
+            }
+        });
+
+        mbtnPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
+                if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
                     //TODO::Intent to payment
                     Intent i = new Intent(getContext(),OrderSummary.class);
                     startActivity(i);

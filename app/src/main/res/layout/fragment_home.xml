@@ -199,6 +199,24 @@
                         app:layout_constraintTop_toTopOf="@+id/tvOrderStatus"
                         app:layout_constraintVertical_bias="1.0" />
 
+                    <Button
+                        android:id="@+id/btnPayment"
+                        android:layout_width="145dp"
+                        android:layout_height="38dp"
+                        android:layout_marginEnd="24dp"
+                        android:background="@drawable/btntrackorderbg"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Payment"
+                        android:textSize="16sp"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvOrderStatus"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/tvOrderStatus"
+                        app:layout_constraintTop_toTopOf="@+id/tvOrderStatus"
+                        app:layout_constraintVertical_bias="1.0" />
+
                     <ImageView
                         android:id="@+id/imageView13"
                         android:layout_width="match_parent"
