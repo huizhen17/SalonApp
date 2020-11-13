@@ -1,5 +1,6 @@
 package com.example.salonapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -107,7 +108,13 @@ public class HomeFragment extends Fragment {
                                 mbtnTrackOrder.setVisibility(View.VISIBLE);
                                 mivPhone.setVisibility(View.VISIBLE);
                                 mtvContact.setVisibility(View.VISIBLE);
-                            }else{
+                            }
+                            else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                                mbtnTrackOrder.setVisibility(View.VISIBLE);
+                                mivPhone.setVisibility(View.INVISIBLE);
+                                mtvContact.setVisibility(View.INVISIBLE);
+                                mbtnTrackOrder.setText("Payment");
+                            } else{
                                 mbtnTrackOrder.setVisibility(View.INVISIBLE);
                                 mivPhone.setVisibility(View.INVISIBLE);
                                 mtvContact.setVisibility(View.INVISIBLE);
@@ -132,6 +139,8 @@ public class HomeFragment extends Fragment {
                     //TODO:: Intent to waze app
                 }else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
                     //TODO::Intent to payment
+                    Intent i = new Intent(getContext(),OrderSummary.class);
+                    startActivity(i);
                 }
             }
         });
@@ -147,6 +156,8 @@ public class HomeFragment extends Fragment {
         mivWalletScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getContext(),ScanPayment.class);
+                startActivity(i);
                 Toast.makeText(getContext(),"Scan",Toast.LENGTH_SHORT).show();
             }
         });
