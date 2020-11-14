@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -82,55 +84,53 @@ public class HomeFragment extends Fragment {
         homeServicesAdapter = new HomeServicesAdapter(getContext(), serviceList);
         mRvHomeServices.setAdapter(homeServicesAdapter);
 
-
         userID = mAuth.getCurrentUser().getUid();
-        CollectionReference collectionReference = db.collection("userDetail").document(userID).collection("orderDetail");
-        collectionReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        DocumentReference documentReference = db.collection("userDetail").document(userID).collection("currentOrder").document("currentOrder");
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error==null) {
-                    if (value.isEmpty()){
-                        mbtnTrackOrder.setVisibility(View.VISIBLE);
-                        mtvOrderNo.setVisibility(View.VISIBLE);
-                        mtvOrderStatus.setVisibility(View.VISIBLE);
-                        mtvOrderTime.setVisibility(View.VISIBLE);
+                    if (!value.exists()){
+                        mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                        mbtnPayment.setVisibility(View.INVISIBLE);
+                        mivPhone.setVisibility(View.INVISIBLE);
+                        mtvContact.setVisibility(View.INVISIBLE);
+                        mtvOrderNo.setText("No Appointment");
+                        mtvOrderStatus.setText("No Appointment");
+                        mtvOrderTime.setText("No Appointment");
                     }else {
-                        for (QueryDocumentSnapshot document : value) {
-                            String id = document.getId();
-                            String status = (String) document.getString("orderStatus").toUpperCase();
-                            String time = (String) document.getString("orderTime");
+                        String id = value.getId();
+                        String status = (String) value.getString("orderStatus").toUpperCase();
+                        String time = (String) value.getString("orderTime");
 
-                            mtvOrderNo.setText(id);
-                            mtvOrderStatus.setText(status);
-                            mtvOrderTime.setText(time);
+                        mtvOrderNo.setText(id);
+                        mtvOrderStatus.setText(status);
+                        mtvOrderTime.setText(time);
 
-                            //If rider OTW user can track the rider location
-                            if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
-                                mbtnTrackOrder.setVisibility(View.VISIBLE);
-                                mbtnPayment.setVisibility(View.INVISIBLE);
-                                mivPhone.setVisibility(View.VISIBLE);
-                                mtvContact.setVisibility(View.VISIBLE);
-                            }
-                            else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
-                                mbtnPayment.setVisibility(View.VISIBLE);
-                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
-                                mivPhone.setVisibility(View.INVISIBLE);
-                                mtvContact.setVisibility(View.INVISIBLE);
-                                //mbtnTrackOrder.setText("Payment");
-                            } else{
-                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
-                                mbtnPayment.setVisibility(View.INVISIBLE);
-                                mivPhone.setVisibility(View.INVISIBLE);
-                                mtvContact.setVisibility(View.INVISIBLE);
-                            }
+                        //If rider OTW user can track the rider location
+                        if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                            mbtnTrackOrder.setVisibility(View.VISIBLE);
+                            mbtnPayment.setVisibility(View.INVISIBLE);
+                            mivPhone.setVisibility(View.VISIBLE);
+                            mtvContact.setVisibility(View.VISIBLE);
+                        }
+                        else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                            mbtnPayment.setVisibility(View.VISIBLE);
+                            mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                            mivPhone.setVisibility(View.INVISIBLE);
+                            mtvContact.setVisibility(View.INVISIBLE);
+                            //mbtnTrackOrder.setText("Payment");
+                        } else{
+                            mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                            mbtnPayment.setVisibility(View.INVISIBLE);
+                            mivPhone.setVisibility(View.INVISIBLE);
+                            mtvContact.setVisibility(View.INVISIBLE);
                         }
                     }
-
                 }else
                     Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
             }
         });
-
 
         //TODO::Messaging??
         //When track button is clicked
@@ -190,6 +190,91 @@ public class HomeFragment extends Fragment {
 
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        userID = mAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = db.collection("userDetail").document(userID).collection("currentOrder").document("currentOrder");
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error==null) {
+                    if (!value.exists()){
+                        mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                        mbtnPayment.setVisibility(View.INVISIBLE);
+                        mivPhone.setVisibility(View.INVISIBLE);
+                        mtvContact.setVisibility(View.INVISIBLE);
+                        mtvOrderNo.setText("No Appointment");
+                        mtvOrderStatus.setText("No Appointment");
+                        mtvOrderTime.setText("No Appointment");
+                    }else {
+
+                            String id = value.getId();
+                            String status = (String) value.getString("orderStatus").toUpperCase();
+                            String time = (String) value.getString("orderTime");
+
+                            mtvOrderNo.setText(id);
+                            mtvOrderStatus.setText(status);
+                            mtvOrderTime.setText(time);
+
+                            //If rider OTW user can track the rider location
+                            if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                                mbtnTrackOrder.setVisibility(View.VISIBLE);
+                                mbtnPayment.setVisibility(View.INVISIBLE);
+                                mivPhone.setVisibility(View.VISIBLE);
+                                mtvContact.setVisibility(View.VISIBLE);
+                            }
+                            else if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                                mbtnPayment.setVisibility(View.VISIBLE);
+                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                                mivPhone.setVisibility(View.INVISIBLE);
+                                mtvContact.setVisibility(View.INVISIBLE);
+                                //mbtnTrackOrder.setText("Payment");
+                            } else{
+                                mbtnTrackOrder.setVisibility(View.INVISIBLE);
+                                mbtnPayment.setVisibility(View.INVISIBLE);
+                                mivPhone.setVisibility(View.INVISIBLE);
+                                mtvContact.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                }else
+                    Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //TODO::Messaging??
+        //When track button is clicked
+        mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
+                if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                    //TODO::Get worker ID get worker latitude & longtitude
+                    //TODO:: Intent to waze app
+                }
+            }
+        });
+
+        mbtnPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
+                if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
+                    //TODO::Intent to payment
+                    Intent i = new Intent(getContext(),OrderSummary.class);
+                    startActivity(i);
+                }
+            }
+        });
+
+        mtvContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(),"Contact Rider",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

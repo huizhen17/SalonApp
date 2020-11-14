@@ -15,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OrderConfirmation extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -34,10 +37,7 @@ public class OrderConfirmation extends AppCompatActivity {
         mtvMyOrderService = findViewById(R.id.tvMyOrderService);
 
         userID = mAuth.getCurrentUser().getUid();
-
-        //Generate random ID from firebase
-        DocumentReference ref = db.collection("orderDetail").document();
-        orderID = ref.getId();
+        orderID = "currentOrder";
 
         Bundle bundle = getIntent().getExtras();
         date = bundle.getString("date",date);
@@ -67,7 +67,7 @@ public class OrderConfirmation extends AppCompatActivity {
         OrderDetail orderDetail = new OrderDetail(orderID,date,time,status,amount,latitude,longitude,address,link,workerID);
 
         //Save order detail to firebase
-        DocumentReference documentReference = db.collection("userDetail").document(userID).collection("orderDetail").document(orderID);
+        DocumentReference documentReference = db.collection("userDetail").document(userID).collection("currentOrder").document("currentOrder");
         documentReference.set(orderDetail).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -80,11 +80,24 @@ public class OrderConfirmation extends AppCompatActivity {
             }
         });
 
+        //Save order detail to firebase
+        DocumentReference orderReference = db.collection("orderDetail").document();
+        Map<String,Object> user = new HashMap<>();
+        user.put("userID",userID);
+        orderReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(OrderConfirmation.this,"Fail to save. Try it later!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         //Passing data back to fragment
-        Bundle newBundle = new Bundle();
-        newBundle.putString("orderID", orderID);
-        HomeFragment objects = new HomeFragment();
-        objects.setArguments(newBundle);
+
         finish();
     }
 }
