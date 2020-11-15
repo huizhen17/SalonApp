@@ -5,6 +5,7 @@ public class OrderDetail {
     private String orderDate;
     private String orderTime;
     private String orderStatus;
+    private String orderService;
     private String orderPrice;
     private String orderLatitude;
     private String orderLongitude;
@@ -12,11 +13,12 @@ public class OrderDetail {
     private String orderLink;
     private String orderWorkerID;
 
-    public OrderDetail(String orderID, String orderDate, String orderTime, String orderStatus, String orderPrice, String orderLatitude, String orderLongitude, String orderAddress, String orderLink, String orderWorkerID) {
+    public OrderDetail(String orderID, String orderDate, String orderTime, String orderStatus, String orderService, String orderPrice, String orderLatitude, String orderLongitude, String orderAddress, String orderLink, String orderWorkerID) {
         this.orderID = orderID;
         this.orderDate = orderDate;
         this.orderTime = orderTime;
         this.orderStatus = orderStatus;
+        this.orderService = orderService;
         this.orderPrice = orderPrice;
         this.orderLatitude = orderLatitude;
         this.orderLongitude = orderLongitude;
@@ -55,6 +57,14 @@ public class OrderDetail {
 
     public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public String getOrderService() {
+        return orderService;
+    }
+
+    public void setOrderService(String orderService) {
+        this.orderService = orderService;
     }
 
     public String getOrderPrice() {

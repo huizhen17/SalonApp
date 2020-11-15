@@ -27,7 +27,7 @@ public class HistoryFragment extends Fragment {
 
     RecyclerView mrvHistory;
     HistoryAdapter historyAdapter;
-    ArrayList<OrderDetail> orderList;
+    ArrayList<HistoryDetail> historyList;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String userID;
@@ -52,23 +52,23 @@ public class HistoryFragment extends Fragment {
                         Toast.makeText(getContext(),"No order found.",Toast.LENGTH_SHORT).show();
                     }else {
                         for (QueryDocumentSnapshot document : value) {
-                            retrieveQuery(document.toObject(OrderDetail.class), value.size());
-                        }
-                    }
+                            retrieveQuery(document.toObject(HistoryDetail.class), value.size());
+        }
+    }
 
-                }else
-                    Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
-            }
+}else
+        Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
+        }
         });
 
         return v;
-    }
+        }
 
-    private void retrieveQuery(OrderDetail orderDetail, int size) {
-        orderList.add(orderDetail);
+private void retrieveQuery(HistoryDetail orderDetail, int size) {
+    historyList.add(orderDetail);
         counter = size;
-        if (orderList.size()==counter){
-            historyAdapter = new HistoryAdapter(getContext(), orderList);
+        if (historyList.size()==counter){
+        historyAdapter = new HistoryAdapter(getContext(), historyList);
             historyAdapter.notifyDataSetChanged();
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
             mrvHistory.setLayoutManager(layoutManager);

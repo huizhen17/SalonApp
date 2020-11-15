@@ -19,6 +19,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class SignUpActivity extends AppCompatActivity {
     //Connect to firestore
@@ -78,7 +80,17 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this, "Sign Up successfully.",
                                     Toast.LENGTH_SHORT).show();
                             userID = mAuth.getCurrentUser().getUid();
-
+                            FirebaseInstanceId.getInstance().getInstanceId()
+                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                            if (task.isSuccessful()) {
+                                                String token = task.getResult().getToken();
+                                                DocumentReference store = db.collection("userDetail").document(mAuth.getCurrentUser().getUid());
+                                                store.update("token", token);
+                                            }
+                                        }
+                                    });
                             DocumentReference user = db.collection("userDetail").document(userID);
                             UserDetail userDetail = new UserDetail(username,email,phone,null,"0");
                             //If system successfully store user details it will go to main if not it

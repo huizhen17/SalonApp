@@ -15,10 +15,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     EditText etEmail,etPassword;
     String email, password;
 
@@ -76,6 +81,17 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(LoginActivity.this, "Welcome!",
                                     Toast.LENGTH_SHORT).show();
+                            FirebaseInstanceId.getInstance().getInstanceId()
+                                    .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                            if (task.isSuccessful()) {
+                                                String token = task.getResult().getToken();
+                                                DocumentReference store = db.collection("userDetail").document(mAuth.getCurrentUser().getUid());
+                                                store.update("token", token);
+                                            }
+                                        }
+                                    });
                             Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                         } else {

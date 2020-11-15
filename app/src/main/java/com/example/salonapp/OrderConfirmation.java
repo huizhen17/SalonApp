@@ -64,11 +64,25 @@ public class OrderConfirmation extends AppCompatActivity {
         Toast.makeText(OrderConfirmation.this,"Order Sent!",Toast.LENGTH_SHORT).show();
         status = "pending";
 
-        OrderDetail orderDetail = new OrderDetail(orderID,date,time,status,amount,latitude,longitude,address,link,workerID);
+        OrderDetail orderDetail = new OrderDetail(orderID,date,time,status,service,amount,latitude,longitude,address,link,workerID);
 
         //Save order detail to firebase
         DocumentReference documentReference = db.collection("userDetail").document(userID).collection("currentOrder").document("currentOrder");
         documentReference.set(orderDetail).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(OrderConfirmation.this,"Fail to save. Try it later!",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //Save order detail for web
+        DocumentReference webReference = db.collection("userDetail").document(userID);
+        webReference.update("currentOrder",orderID).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
 
