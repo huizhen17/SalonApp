@@ -80,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity {
                             userID = mAuth.getCurrentUser().getUid();
 
                             DocumentReference user = db.collection("userDetail").document(userID);
-                            UserDetail userDetail = new UserDetail(username,email,phone,password,null,"0");
+                            UserDetail userDetail = new UserDetail(username,email,phone,null,"0");
                             //If system successfully store user details it will go to main if not it
                             //will toast message
                             user.set(userDetail).addOnSuccessListener(new OnSuccessListener<Void>() {

@@ -103,6 +103,9 @@ public class BookAppointment extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String address = documentSnapshot.getString("address");
                 mtvBookAddress.setText(address);
+                if(address.equals("")){
+                    mtvBookAddress.setText("Click to add new Address");
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -111,40 +114,45 @@ public class BookAppointment extends AppCompatActivity {
             }
         });
 
+
         //When address is clicked
         mtvBookAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent i = new Intent(BookAppointment.this, AddAddress.class);
-                //startActivity(i);
-                editAddressDialog.setContentView(R.layout.activity_address_dialog);
-                editAddressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                editAddressDialog.show();
-                editAddressDialog.setCancelable(false);
+                if(mtvBookAddress.getText().toString().equals("Click to add new Address")){
+                    Intent i = new Intent(BookAppointment.this,AddAddress.class);
+                    //i.putExtra("book","pass from book appointment");
+                    startActivity(i);
+                }else{
+                    editAddressDialog.setContentView(R.layout.activity_address_dialog);
+                    editAddressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    editAddressDialog.show();
+                    editAddressDialog.setCancelable(false);
 
-                metAddress = editAddressDialog.findViewById(R.id.etAddress);
-                mbtnConfirm = editAddressDialog.findViewById(R.id.btnDoneEdit);
-                mbtnCanEdit = editAddressDialog.findViewById(R.id.btnCancelEdit);
+                    metAddress = editAddressDialog.findViewById(R.id.etAddress);
+                    mbtnConfirm = editAddressDialog.findViewById(R.id.btnDoneEdit);
+                    mbtnCanEdit = editAddressDialog.findViewById(R.id.btnCancelEdit);
 
-                metAddress.setText(mtvBookAddress.getText().toString());
+                    metAddress.setText(mtvBookAddress.getText().toString());
 
 
-                mbtnConfirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        mtvBookAddress.setText(metAddress.getText().toString());
-                        //TODO::Add Geocoding API
+                    mbtnConfirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            mtvBookAddress.setText(metAddress.getText().toString());
+                            //TODO::Add Geocoding API
 
-                        editAddressDialog.dismiss();
-                    }
-                });
+                            editAddressDialog.dismiss();
+                        }
+                    });
 
-                mbtnCanEdit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        editAddressDialog.dismiss();
-                    }
-                });
+                    mbtnCanEdit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            editAddressDialog.dismiss();
+                        }
+                    });
+                }
             }
         });
 

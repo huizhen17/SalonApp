@@ -4,15 +4,13 @@ public class UserDetail {
     private String name;
     private String email;
     private String phoneNo;
-    private String password;
     private UserAddress address;
     private String credit;
 
-    public UserDetail(String name, String email, String phoneNo, String password, UserAddress address, String credit) {
+    public UserDetail(String name, String email, String phoneNo, UserAddress address, String credit) {
         this.name = name;
         this.email = email;
         this.phoneNo = phoneNo;
-        this.password = password;
         this.address = address;
         this.credit = credit;
     }
@@ -39,14 +37,6 @@ public class UserDetail {
 
     public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public UserAddress getAddress() {

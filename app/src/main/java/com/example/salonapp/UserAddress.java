@@ -107,9 +107,9 @@ public class UserAddress implements Serializable {
                     ", " + getHouseState() + ", Malaysia";
         }
         else {
-            return  getHouseNo() + ", " + getHouseBlock() + "-" + getHouseLevel() + ", " + getHouseBuilding() +
+            return  getHouseNo() + "-" + getHouseBlock() + "-" + getHouseLevel() + ", " + getHouseBuilding() +
                     ", " + getHouseStreet() + ", " + getHouseGarden() + ", "+ getHousePostcode() + ", " + getHouseCity()  +
-                    ", " + getHouseState() + ", Malaysia123";
+                    ", " + getHouseState() + ", Malaysia";
         }
     }
 }

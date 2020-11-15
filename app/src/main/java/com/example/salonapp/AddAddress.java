@@ -55,20 +55,23 @@ public class AddAddress extends AppCompatActivity {
         userID = mAuth.getCurrentUser().getUid();
 
         Bundle bundle = getIntent().getExtras();
-        String addressFound = bundle.getString("addressExist");
-        if(!addressFound.isEmpty()){
-            //if address found, extract out from firebase
-            extractAddress();
+        if(bundle!=null){
+            String addressFound = bundle.getString("addressExist");
+            if(!addressFound.isEmpty()){
+                //if address found, extract out from firebase
+                extractAddress();
+            }
         }
+
     }
 
     public void btnSavedAddress_onClick(View view) {
 
-        retrieveAddress();
+
 
         if(!mtvHouseNo.getText().toString().isEmpty()||!mtvHouseGarden.getText().toString().isEmpty()||!mtvHouseStreet.getText().toString().isEmpty()
                 ||!mtvHouseCity.getText().toString().isEmpty()||!mtvHouseCity.getText().toString().isEmpty()||!mtvHouseState.getText().toString().isEmpty()){
-
+            retrieveAddress();
             //Back to parent activity and pass data back
             Toast.makeText(AddAddress.this,"Saved.",Toast.LENGTH_SHORT).show();
             Intent returnIntent = new Intent();
@@ -135,7 +138,7 @@ public class AddAddress extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddAddress.this, "Address added", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(AddAddress.this, "Address fail to add", Toast.LENGTH_SHORT).show();
             }
         });
     }

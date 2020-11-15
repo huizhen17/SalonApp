@@ -37,7 +37,8 @@ public class OrderConfirmation extends AppCompatActivity {
         mtvMyOrderService = findViewById(R.id.tvMyOrderService);
 
         userID = mAuth.getCurrentUser().getUid();
-        orderID = "currentOrder";
+        DocumentReference ref = db.collection("orderDetail").document();
+        orderID = ref.getId();
 
         Bundle bundle = getIntent().getExtras();
         date = bundle.getString("date",date);
@@ -63,7 +64,6 @@ public class OrderConfirmation extends AppCompatActivity {
         Toast.makeText(OrderConfirmation.this,"Order Sent!",Toast.LENGTH_SHORT).show();
         status = "pending";
 
-        Toast.makeText(OrderConfirmation.this,"Order ID:" + orderID,Toast.LENGTH_SHORT).show();
         OrderDetail orderDetail = new OrderDetail(orderID,date,time,status,amount,latitude,longitude,address,link,workerID);
 
         //Save order detail to firebase
@@ -81,7 +81,7 @@ public class OrderConfirmation extends AppCompatActivity {
         });
 
         //Save order detail to firebase
-        DocumentReference orderReference = db.collection("orderDetail").document();
+        DocumentReference orderReference = db.collection("orderDetail").document(orderID);
         Map<String,Object> user = new HashMap<>();
         user.put("userID",userID);
         orderReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -95,8 +95,6 @@ public class OrderConfirmation extends AppCompatActivity {
                 Toast.makeText(OrderConfirmation.this,"Fail to save. Try it later!",Toast.LENGTH_SHORT).show();
             }
         });
-
-        //Passing data back to fragment
 
         finish();
     }

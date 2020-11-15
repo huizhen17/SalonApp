@@ -26,7 +26,7 @@
             app:layout_constraintVertical_bias="0.033">
 
             <TextView
-                android:id="@+id/textView46"
+                android:id="@+id/tvFive"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -47,7 +47,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView50"
+                android:id="@+id/tvFifty"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
@@ -60,14 +60,14 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView46"
+                app:layout_constraintEnd_toEndOf="@+id/tvFive"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView46"
-                app:layout_constraintTop_toBottomOf="@+id/textView46"
+                app:layout_constraintStart_toStartOf="@+id/tvFive"
+                app:layout_constraintTop_toBottomOf="@+id/tvFive"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView51"
+                android:id="@+id/tvHundred"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -80,14 +80,14 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView48"
+                app:layout_constraintEnd_toEndOf="@+id/tvTen"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView48"
-                app:layout_constraintTop_toBottomOf="@+id/textView48"
+                app:layout_constraintStart_toStartOf="@+id/tvTen"
+                app:layout_constraintTop_toBottomOf="@+id/tvTen"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView52"
+                android:id="@+id/tvTwoHundred"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -100,14 +100,14 @@
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/textView49"
+                app:layout_constraintEnd_toEndOf="@+id/tvTwenty"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView49"
-                app:layout_constraintTop_toBottomOf="@+id/textView49"
+                app:layout_constraintStart_toStartOf="@+id/tvTwenty"
+                app:layout_constraintTop_toBottomOf="@+id/tvTwenty"
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView48"
+                android:id="@+id/tvTen"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -119,13 +119,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView46"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvFive"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView46" />
+                app:layout_constraintStart_toEndOf="@+id/tvFive" />
 
             <TextView
-                android:id="@+id/textView49"
+                android:id="@+id/tvTwenty"
                 android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -137,13 +137,13 @@
                 android:textAlignment="center"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView48"
+                app:layout_constraintBaseline_toBaselineOf="@+id/tvTen"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView48" />
+                app:layout_constraintStart_toEndOf="@+id/tvTen" />
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/etInputAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -284,7 +284,7 @@
                 android:textColor="#191818"
                 android:textSize="20sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView47"
-                app:layout_constraintEnd_toStartOf="@+id/textView57"
+                app:layout_constraintEnd_toStartOf="@+id/tvCreditAmt"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView47" />
 
@@ -298,7 +298,7 @@
                 android:textColor="#191818"
                 android:textSize="20sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView58"
-                app:layout_constraintEnd_toStartOf="@+id/textView60"
+                app:layout_constraintEnd_toStartOf="@+id/tvTopUpAmt"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView58" />
 
@@ -312,12 +312,12 @@
                 android:textColor="#D30A0A"
                 android:textSize="22sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView61"
-                app:layout_constraintEnd_toStartOf="@+id/textView63"
+                app:layout_constraintEnd_toStartOf="@+id/tvTotalAmt"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView61" />
 
             <TextView
-                android:id="@+id/textView57"
+                android:id="@+id/tvCreditAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
@@ -330,7 +330,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView47" />
 
             <TextView
-                android:id="@+id/textView60"
+                android:id="@+id/tvTopUpAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
@@ -338,12 +338,12 @@
                 android:textColor="#171717"
                 android:textSize="22sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView58"
-                app:layout_constraintEnd_toEndOf="@+id/textView57"
+                app:layout_constraintEnd_toEndOf="@+id/tvCreditAmt"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView58" />
 
             <TextView
-                android:id="@+id/textView63"
+                android:id="@+id/tvTotalAmt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="147dp"
@@ -352,13 +352,13 @@
                 android:textColor="#D30A0A"
                 android:textSize="24sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView61"
-                app:layout_constraintEnd_toEndOf="@+id/textView60"
+                app:layout_constraintEnd_toEndOf="@+id/tvTopUpAmt"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toEndOf="@+id/textView61" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btnDoneTopUp"
             android:layout_width="365dp"
             android:layout_height="50dp"
             android:layout_marginBottom="24dp"
@@ -369,7 +369,7 @@
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+            app:layout_constraintEnd_toEndOf="@+id/constraintLayout3"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/constraintLayout3"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
