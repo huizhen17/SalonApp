@@ -2,11 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.salonapp">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,12 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ScanPayment"
-            android:parentActivityName=".MainActivity"
-            android:label="Scan for Payment"/>
-        <activity android:name=".TopUpActivity"
-            android:parentActivityName=".OrderSummary"
-            android:label="Top Up Credit"/>
+        <activity android:name=".ViewReceipt"
+            android:label="View Receipt"
+            android:parentActivityName=".OrderSummary"/>
+        <activity
+            android:name=".ScanPayment"
+            android:label="Scan for Payment"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".TopUpActivity"
+            android:label="Top Up Credit"
+            android:parentActivityName=".OrderSummary" />
         <activity
             android:name=".OrderSummary"
             android:label="Payment Confirmation"
@@ -46,14 +46,20 @@
         </activity>
         <activity android:name=".MainActivity" />
 
-        <service android:name=".FCM.MyFirebaseMessagingService">
-        <intent-filter>
-            <action android:name="com.google.firebase.MESSAGING_EVENT" />
-        </intent-filter>
-        </service>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <service android:name=".FCM.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
+    <uses-permission android:name="android.permission. ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
 </manifest>

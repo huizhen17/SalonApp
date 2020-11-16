@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     HomeServicesAdapter homeServicesAdapter;
     ArrayList<ServicesDetail> serviceList;
     ArrayList<OrderDetail> orderList;
-    String userID,orderID;
+    String userID,orderID,orderStatus,orderTime;
     int counter;
 
     @Override
@@ -137,13 +137,13 @@ public class HomeFragment extends Fragment {
                         mtvOrderStatus.setText("No Appointment");
                         mtvOrderTime.setText("No Appointment");
                     }else {
-                        String id = (String) value.getString("orderID").toUpperCase();
-                        String status = (String) value.getString("orderStatus").toUpperCase();
-                        String time = (String) value.getString("orderTime");
+                        orderID = value.getString("orderID").toUpperCase();
+                        orderStatus = value.getString("orderStatus").toUpperCase();
+                        orderTime = value.getString("orderTime");
 
-                        mtvOrderNo.setText(id);
-                        mtvOrderStatus.setText(status);
-                        mtvOrderTime.setText(time);
+                        mtvOrderNo.setText(orderID);
+                        mtvOrderStatus.setText(orderStatus);
+                        mtvOrderTime.setText(orderTime);
 
                         //If rider OTW user can track the rider location
                         if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
@@ -184,9 +184,11 @@ public class HomeFragment extends Fragment {
         mbtnPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
                 if(mtvOrderStatus.getText().toString().equalsIgnoreCase("ARRIVED")){
                     Intent i = new Intent(getContext(),OrderSummary.class);
+                    i.putExtra("orderID",orderID);
+                    i.putExtra("orderStatus",orderStatus);
+                    i.putExtra("orderTime",orderTime);
                     startActivity(i);
                 }
             }

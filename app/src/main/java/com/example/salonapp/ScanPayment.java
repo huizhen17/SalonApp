@@ -29,12 +29,24 @@ public class ScanPayment extends AppCompatActivity {
 
     CodeScanner codeScanner;
     CodeScannerView codeScannerView;
+    String orderID="",orderStatus,orderTime="",orderAmount="",orderAddress="",orderService="",orderDate="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_payment);
         codeScannerView = findViewById(R.id.scannerCam);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            orderID = bundle.getString("orderID");
+            orderTime = bundle.getString("orderTime");
+            orderDate = bundle.getString("orderDate");
+            orderAddress = bundle.getString("orderAddress");
+            orderAmount = bundle.getString("orderAmount");
+            orderService = bundle.getString("orderService");
+        }
+        Toast.makeText(ScanPayment.this,orderID+"Test",Toast.LENGTH_SHORT).show();
 
         codeScanner = new CodeScanner(this, codeScannerView);
         requestForCamera();
@@ -94,7 +106,17 @@ public class ScanPayment extends AppCompatActivity {
         codeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                codeScanner.startPreview();
+                //TODO::Intent to ViewReceipt
+
+                Intent i = new Intent(ScanPayment.this,ViewReceipt.class);
+                i.putExtra("orderID",orderID);
+                //i.putExtra("orderStatus",orderStatus);
+                i.putExtra("orderTime",orderTime);
+                i.putExtra("orderDate",orderDate);
+                i.putExtra("orderAddress",orderAddress);
+                i.putExtra("orderAmount",orderAmount);
+                i.putExtra("orderService",orderService);
+                startActivity(i);
             }
         });
 
