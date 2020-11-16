@@ -46,7 +46,6 @@ public class ScanPayment extends AppCompatActivity {
             orderAmount = bundle.getString("orderAmount");
             orderService = bundle.getString("orderService");
         }
-        Toast.makeText(ScanPayment.this,orderID+"Test",Toast.LENGTH_SHORT).show();
 
         codeScanner = new CodeScanner(this, codeScannerView);
         requestForCamera();
@@ -114,6 +113,7 @@ public class ScanPayment extends AppCompatActivity {
                 i.putExtra("orderAddress",orderAddress);
                 i.putExtra("orderAmount",orderAmount);
                 i.putExtra("orderService",orderService);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
             }
         });

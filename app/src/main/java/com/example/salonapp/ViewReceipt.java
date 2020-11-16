@@ -3,6 +3,7 @@ package com.example.salonapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,9 +14,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ViewReceipt extends AppCompatActivity {
 
-    //TODO::create interface
     //TODO::rating
     //TODO::get data from intent/db
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -67,5 +70,32 @@ public class ViewReceipt extends AppCompatActivity {
     }
 
     public void btnRating_onClick(View view) {
+
+        //Store user order data to historyDetail
+        DocumentReference documentReference = db.collection("userDetail").document(userID).collection("orderHistory").document(orderID);
+        Map<String,Object> historyData = new HashMap<>();
+        historyData.put("historyID",orderID);
+        historyData.put("historyWorkerID",workerID);
+        historyData.put("historyPrice",orderAmount);
+        historyData.put("historyService",orderService);
+        documentReference.set(historyData).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+
+        //Remove current order data in userDetail
+        DocumentReference delOrderReference = db.collection("userDetail").document(userID).collection("currentOrder").document("currentOrder");
+        delOrderReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
+
+        Intent i = new Intent(ViewReceipt.this,MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
     }
 }

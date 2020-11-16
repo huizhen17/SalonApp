@@ -27,7 +27,7 @@ public class HistoryFragment extends Fragment {
 
     RecyclerView mrvHistory;
     HistoryAdapter historyAdapter;
-    ArrayList<HistoryDetail> historyList;
+    ArrayList<HistoryDetail> historyList = new ArrayList<>();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     String userID;
@@ -43,7 +43,7 @@ public class HistoryFragment extends Fragment {
 
         userID = mAuth.getCurrentUser().getUid();
         //Get instant update
-        CollectionReference getOrderDB =  db.collection("userDetail").document(userID).collection("historyDetail");
+        CollectionReference getOrderDB =  db.collection("userDetail").document(userID).collection("orderHistory");
         getOrderDB.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -53,26 +53,25 @@ public class HistoryFragment extends Fragment {
                     }else {
                         for (QueryDocumentSnapshot document : value) {
                             retrieveQuery(document.toObject(HistoryDetail.class), value.size());
-        }
-    }
-
-}else
-        Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
-        }
+                        }
+                    }
+                }else
+                    Toast.makeText(getContext(),"Fail to retrieve data.",Toast.LENGTH_SHORT).show();
+            }
         });
 
         return v;
-        }
+    }
 
-private void retrieveQuery(HistoryDetail orderDetail, int size) {
-    historyList.add(orderDetail);
-        counter = size;
-        if (historyList.size()==counter){
-        historyAdapter = new HistoryAdapter(getContext(), historyList);
-            historyAdapter.notifyDataSetChanged();
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-            mrvHistory.setLayoutManager(layoutManager);
-            mrvHistory.setAdapter(historyAdapter);
+    private void retrieveQuery(HistoryDetail orderDetail, int size) {
+        historyList.add(orderDetail);
+            counter = size;
+            if (historyList.size()==counter){
+            historyAdapter = new HistoryAdapter(getContext(), historyList);
+                historyAdapter.notifyDataSetChanged();
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
+                mrvHistory.setLayoutManager(layoutManager);
+                mrvHistory.setAdapter(historyAdapter);
+            }
         }
     }
-}

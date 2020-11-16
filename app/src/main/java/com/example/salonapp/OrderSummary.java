@@ -78,7 +78,7 @@ public class OrderSummary extends AppCompatActivity {
         i.putExtra("orderAmount",mtvPayPrice.getText().toString());
         i.putExtra("orderService",mtvPayService.getText().toString());
         startActivity(i);
-        Toast.makeText(OrderSummary.this,"Payment Completed",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(OrderSummary.this,"Payment Completed",Toast.LENGTH_SHORT).show();
     }
 
     public void btnTopUp_onClicked(View view) {
