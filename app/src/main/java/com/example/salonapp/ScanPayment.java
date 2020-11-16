@@ -106,8 +106,6 @@ public class ScanPayment extends AppCompatActivity {
         codeScannerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO::Intent to ViewReceipt
-
                 Intent i = new Intent(ScanPayment.this,ViewReceipt.class);
                 i.putExtra("orderID",orderID);
                 //i.putExtra("orderStatus",orderStatus);

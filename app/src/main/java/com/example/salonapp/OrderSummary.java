@@ -21,8 +21,7 @@ import org.w3c.dom.Text;
 
 public class OrderSummary extends AppCompatActivity {
 
-    //TODO::Nid wait order status = complete to proceed this page
-    //TODO::Retrieve data from intent/db
+
     TextView mtvPayId, mtvPayDate, mtvPayTime, mtvPayAddress, mtvPayPrice, mtvPayService;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();

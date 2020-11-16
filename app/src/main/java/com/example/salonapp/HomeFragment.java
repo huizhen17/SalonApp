@@ -1,6 +1,7 @@
 package com.example.salonapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment {
     HomeServicesAdapter homeServicesAdapter;
     ArrayList<ServicesDetail> serviceList;
     ArrayList<OrderDetail> orderList;
-    String userID,orderID,orderStatus,orderTime;
+    String userID,orderID,orderStatus,orderTime,link;
     int counter;
 
     @Override
@@ -147,6 +148,7 @@ public class HomeFragment extends Fragment {
 
                         //If rider OTW user can track the rider location
                         if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
+                            link = value.getString("orderLink");
                             mbtnTrackOrder.setVisibility(View.VISIBLE);
                             mbtnPayment.setVisibility(View.INVISIBLE);
                             mivPhone.setVisibility(View.VISIBLE);
@@ -169,14 +171,15 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        //TODO::Messaging??
         //When track button is clicked
         mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
                 if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
-                    //TODO:: Intent to google app
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(link));
+                    startActivity(i);
                 }
             }
         });

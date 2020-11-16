@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     Context context;
-    //TODO::Adapter for history
     ArrayList<HistoryDetail> historyList;
     //private boolean clicked=true;
 

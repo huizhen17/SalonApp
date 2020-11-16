@@ -63,7 +63,6 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
                     holder.mivTimeBg.setImageResource(R.drawable.selected_bg);
                     clicked=false;
 
-                    //TODO::Pass time to new Intent
                     Intent i = new Intent("custom-message");
                     i.putExtra("time",data);
                     LocalBroadcastManager.getInstance(context).sendBroadcast(i);
