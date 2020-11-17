@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.codemybrainsout.ratingdialog.RatingDialog;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -94,6 +96,45 @@ public class ViewReceipt extends AppCompatActivity {
 
             }
         });
+
+        Drawable d = getResources().getDrawable(R.drawable.ic_bn_rating);
+        final RatingDialog ratingDialog = new RatingDialog.Builder(ViewReceipt.this)
+                .icon(d)
+                .title("How was your experience?")
+                .titleTextColor(R.color.black)
+                .positiveButtonText("Submit")
+                .negativeButtonText("Not Now")
+                .positiveButtonTextColor(R.color.black)
+                .negativeButtonTextColor(R.color.colorPrimary)
+                .ratingBarColor(R.color.colorPrimary)
+                .onThresholdCleared(new RatingDialog.Builder.RatingThresholdClearedListener() {
+                    @Override
+                    public void onThresholdCleared(RatingDialog ratingDialog, float rating, boolean thresholdCleared) {
+                        //do something
+                        //ratingDialog.dismiss();
+                    }
+                })
+                .onThresholdFailed(new RatingDialog.Builder.RatingThresholdFailedListener() {
+                    @Override
+                    public void onThresholdFailed(RatingDialog ratingDialog, float rating, boolean thresholdCleared) {
+                        //do something
+                        //ratingDialog.dismiss();
+                    }
+                })
+                .onRatingChanged(new RatingDialog.Builder.RatingDialogListener() {
+                    @Override
+                    public void onRatingSelected(float rating, boolean thresholdCleared) {
+
+                    }
+                })
+                .onRatingBarFormSumbit(new RatingDialog.Builder.RatingDialogFormListener() {
+                    @Override
+                    public void onFormSubmitted(String feedback) {
+
+                    }
+                }).build();
+
+        ratingDialog.show();
 
         Toast.makeText(ViewReceipt.this,"Service complete",Toast.LENGTH_SHORT).show();
         Intent i = new Intent(ViewReceipt.this,MainActivity.class);
