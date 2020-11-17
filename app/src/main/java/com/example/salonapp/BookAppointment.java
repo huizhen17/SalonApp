@@ -238,7 +238,7 @@ public class BookAppointment extends AppCompatActivity {
             mrvTime.setAdapter(bookTimeAdapter);
 
         } else {
-            Toast.makeText(BookAppointment.this, "123 NO AVAILABLE SLOT PROVIDED", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BookAppointment.this, " NO AVAILABLE SLOT PROVIDED", Toast.LENGTH_SHORT).show();
             mrvTime.setVisibility(View.INVISIBLE);
             mbtnBookAppointment.setVisibility(View.INVISIBLE);
             mtvEmptySlot.setVisibility(View.VISIBLE);

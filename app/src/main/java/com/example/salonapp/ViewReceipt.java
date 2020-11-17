@@ -22,14 +22,13 @@ import java.util.Map;
 
 public class ViewReceipt extends AppCompatActivity {
 
-    //TODO::rating
-    //TODO::get data from intent/db
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     TextView mtvReceiptNo, mtvReceiptDate, mtvReceiptTime, mtvReceiptAddress,
             mtvReceiptAmount, mtvReceiptService,mtvWorkerID;
     String userID = mAuth.getCurrentUser().getUid();
     String orderID="", workerID="", orderTime="",orderDate="",orderAddress="",orderService="",orderAmount="";
+    boolean check=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +96,7 @@ public class ViewReceipt extends AppCompatActivity {
             }
         });
 
+
         Drawable d = getResources().getDrawable(R.drawable.ic_bn_rating);
         final RatingDialog ratingDialog = new RatingDialog.Builder(ViewReceipt.this)
                 .icon(d)
@@ -110,15 +110,13 @@ public class ViewReceipt extends AppCompatActivity {
                 .onThresholdCleared(new RatingDialog.Builder.RatingThresholdClearedListener() {
                     @Override
                     public void onThresholdCleared(RatingDialog ratingDialog, float rating, boolean thresholdCleared) {
-                        //do something
-                        //ratingDialog.dismiss();
+
                     }
                 })
                 .onThresholdFailed(new RatingDialog.Builder.RatingThresholdFailedListener() {
                     @Override
                     public void onThresholdFailed(RatingDialog ratingDialog, float rating, boolean thresholdCleared) {
-                        //do something
-                        //ratingDialog.dismiss();
+
                     }
                 })
                 .onRatingChanged(new RatingDialog.Builder.RatingDialogListener() {
@@ -135,10 +133,16 @@ public class ViewReceipt extends AppCompatActivity {
                 }).build();
 
         ratingDialog.show();
+        ratingDialog.getPositiveButtonTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ratingDialog.dismiss();
+                Toast.makeText(ViewReceipt.this,"Service complete",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(ViewReceipt.this,MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+            }
+        });
 
-        Toast.makeText(ViewReceipt.this,"Service complete",Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(ViewReceipt.this,MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(i);
     }
 }

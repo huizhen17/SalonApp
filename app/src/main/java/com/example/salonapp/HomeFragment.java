@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment {
     ArrayList<OrderDetail> orderList;
     String userID,orderID,orderStatus,orderTime,link;
     int counter;
+    boolean check=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -177,7 +178,6 @@ public class HomeFragment extends Fragment {
         mbtnTrackOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),mtvOrderStatus.getText().toString(),Toast.LENGTH_SHORT).show();
                 if(mtvOrderStatus.getText().toString().equalsIgnoreCase("RIDER OTW")){
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(link));

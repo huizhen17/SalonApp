@@ -69,7 +69,6 @@ public class OrderSummary extends AppCompatActivity {
     }
 
     public void btnOrderPay_onClick(View view) {
-        //TODO :: CHANGE order status = complete and remove the data from order Detail
         Intent i = new Intent(OrderSummary.this,ScanPayment.class);
         i.putExtra("orderID",mtvPayId.getText().toString());
         i.putExtra("orderTime",mtvPayTime.getText().toString());
@@ -78,11 +77,9 @@ public class OrderSummary extends AppCompatActivity {
         i.putExtra("orderAmount",mtvPayPrice.getText().toString());
         i.putExtra("orderService",mtvPayService.getText().toString());
         startActivity(i);
-        //Toast.makeText(OrderSummary.this,"Payment Completed",Toast.LENGTH_SHORT).show();
-    }
+      }
 
     public void btnTopUp_onClicked(View view) {
-        Toast.makeText(OrderSummary.this,"Top Up",Toast.LENGTH_SHORT).show();
         Intent i = new Intent(OrderSummary.this,TopUpActivity.class);
         startActivity(i);
     }

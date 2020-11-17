@@ -29,7 +29,7 @@ public class ScanPayment extends AppCompatActivity {
 
     CodeScanner codeScanner;
     CodeScannerView codeScannerView;
-    String orderID="",orderStatus,orderTime="",orderAmount="",orderAddress="",orderService="",orderDate="";
+    String orderID="",orderTime="",orderAmount="",orderAddress="",orderService="",orderDate="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +107,6 @@ public class ScanPayment extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(ScanPayment.this,ViewReceipt.class);
                 i.putExtra("orderID",orderID);
-                //i.putExtra("orderStatus",orderStatus);
                 i.putExtra("orderTime",orderTime);
                 i.putExtra("orderDate",orderDate);
                 i.putExtra("orderAddress",orderAddress);

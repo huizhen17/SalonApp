@@ -59,7 +59,6 @@ public class BookTimeAdapter extends RecyclerView.Adapter<BookTimeAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 if(clicked==true){
-                    Toast.makeText(view.getContext(),data + " selected.",Toast.LENGTH_SHORT).show();
                     holder.mivTimeBg.setImageResource(R.drawable.selected_bg);
                     clicked=false;
 
