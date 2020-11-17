@@ -2,15 +2,19 @@ package com.example.salonapp;
 
 public class HistoryDetail {
     private String historyID;
+    private String historyWorkerID;
     private String historyPrice;
+    private String historyService;
 
     public HistoryDetail(){
-        this("","");
+        this("","","","");
     }
 
-    public HistoryDetail(String historyID, String historyPrice) {
+    public HistoryDetail(String historyID, String historyWorkerID, String historyPrice, String historyService) {
         this.historyID = historyID;
+        this.historyWorkerID = historyWorkerID;
         this.historyPrice = historyPrice;
+        this.historyService = historyService;
     }
 
     public String getHistoryID() {
@@ -21,6 +25,14 @@ public class HistoryDetail {
         this.historyID = historyID;
     }
 
+    public String getHistoryWorkerID() {
+        return historyWorkerID;
+    }
+
+    public void setHistoryWorkerID(String historyWorkerID) {
+        this.historyWorkerID = historyWorkerID;
+    }
+
     public String getHistoryPrice() {
         return historyPrice;
     }
@@ -29,4 +41,11 @@ public class HistoryDetail {
         this.historyPrice = historyPrice;
     }
 
+    public String getHistoryService() {
+        return historyService;
+    }
+
+    public void setHistoryService(String historyService) {
+        this.historyService = historyService;
+    }
 }

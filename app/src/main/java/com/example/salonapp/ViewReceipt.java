@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -94,6 +95,7 @@ public class ViewReceipt extends AppCompatActivity {
             }
         });
 
+        Toast.makeText(ViewReceipt.this,"Service complete",Toast.LENGTH_SHORT).show();
         Intent i = new Intent(ViewReceipt.this,MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
