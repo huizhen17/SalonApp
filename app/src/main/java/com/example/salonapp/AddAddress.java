@@ -33,7 +33,7 @@ public class AddAddress extends AppCompatActivity {
     EditText mtvHouseNo, mtvHouseBlock, mtvHouseLvl, mtvHouseCondo, mtvHouseGarden, mtvHouseStreet, mtvHousePostcode, mtvHouseCity, mtvHouseState;
     String houseNo, houseBlock, houseLvl, houseCondo, houseGarden, houseStreet, housePostcode, houseCity, houseState;
     UserAddress userAddress = new UserAddress();
-    String address="",userID="";
+    String address="",userID="",latitude,longitude;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -66,9 +66,6 @@ public class AddAddress extends AppCompatActivity {
     }
 
     public void btnSavedAddress_onClick(View view) {
-
-
-
         if(!mtvHouseNo.getText().toString().isEmpty()||!mtvHouseGarden.getText().toString().isEmpty()||!mtvHouseStreet.getText().toString().isEmpty()
                 ||!mtvHouseCity.getText().toString().isEmpty()||!mtvHouseCity.getText().toString().isEmpty()||!mtvHouseState.getText().toString().isEmpty()){
             retrieveAddress();
@@ -117,6 +114,22 @@ public class AddAddress extends AppCompatActivity {
 
         userAddress = new UserAddress(houseNo,houseBlock,houseLvl,houseCondo,houseGarden,houseStreet,houseCity,housePostcode,houseState);
         address = userAddress.generateAddress();
+
+        Geocoding.getAddressFromLocation(address,
+                getApplicationContext());
+        latitude = String.valueOf(Geocoding.latitude);
+        longitude= String.valueOf(Geocoding.longitude);
+
+        DocumentReference documentReference = db.collection("userDetail").document(userID);
+        Map<String,Object> coordinates = new HashMap<>();
+        coordinates.put("longitude",longitude);
+        coordinates.put("latitude",latitude);
+        documentReference.update(coordinates).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+
+            }
+        });
 
         //Saved address components into database
         DocumentReference addressDB = db.collection("userDetail").document(userID).collection("userAddress").document("address");

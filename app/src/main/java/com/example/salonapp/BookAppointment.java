@@ -76,7 +76,6 @@ public class BookAppointment extends AppCompatActivity {
     String latitude, longitude;
     FusedLocationProviderClient fusedLocationProviderClient;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +101,8 @@ public class BookAppointment extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String address = documentSnapshot.getString("address");
+                longitude = documentSnapshot.getString("longitude");
+                latitude = documentSnapshot.getString("latitude");
                 mtvBookAddress.setText(address);
                 if(address.equals("")){
                     mtvBookAddress.setText("Click to add new Address");
@@ -140,8 +141,11 @@ public class BookAppointment extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             mtvBookAddress.setText(metAddress.getText().toString());
-                            //TODO::Add Geocoding API
-
+                            Geocoding locationAddress = new Geocoding();
+                            locationAddress.getAddressFromLocation(metAddress.getText().toString(),
+                                    getApplicationContext());
+                            latitude = String.valueOf(Geocoding.getLatitude());
+                            longitude= String.valueOf(Geocoding.getLongitude());
                             editAddressDialog.dismiss();
                         }
                     });
