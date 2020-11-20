@@ -8,8 +8,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,12 +27,16 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddAddress extends AppCompatActivity {
 
+    private static final String TAG = "Add Address";
     EditText mtvHouseNo, mtvHouseBlock, mtvHouseLvl, mtvHouseCondo, mtvHouseGarden, mtvHouseStreet, mtvHousePostcode, mtvHouseCity, mtvHouseState;
     String houseNo, houseBlock, houseLvl, houseCondo, houseGarden, houseStreet, housePostcode, houseCity, houseState;
     UserAddress userAddress = new UserAddress();
@@ -115,10 +122,18 @@ public class AddAddress extends AppCompatActivity {
         userAddress = new UserAddress(houseNo,houseBlock,houseLvl,houseCondo,houseGarden,houseStreet,houseCity,housePostcode,houseState);
         address = userAddress.generateAddress();
 
-        Geocoding.getAddressFromLocation(address,
-                getApplicationContext());
-        latitude = String.valueOf(Geocoding.latitude);
-        longitude= String.valueOf(Geocoding.longitude);
+        Geocoder geocoder = new Geocoder(AddAddress.this, Locale.getDefault());
+        try {
+            //TODO::Replace with your personal api key
+            List<Address> addressList = geocoder.getFromLocationName(address+
+                                        "YOUR_API_KEY", 1);
+            Address address = addressList.get(0);
+            latitude = String.valueOf(address.getLatitude());
+            longitude= String.valueOf(address.getLongitude());
+            Log.e(TAG, address.getLatitude()+"");
+        } catch (IOException e) {
+            Log.e(TAG, "Unable to connect to Geocoder", e);
+        }
 
         DocumentReference documentReference = db.collection("userDetail").document(userID);
         Map<String,Object> coordinates = new HashMap<>();
@@ -146,7 +161,6 @@ public class AddAddress extends AppCompatActivity {
         addressDB.set(address).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(AddAddress.this, "Address added", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

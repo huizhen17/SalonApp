@@ -83,7 +83,8 @@ public class ScanPayment extends AppCompatActivity {
             }
 
             @Override
-            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest, PermissionToken permissionToken) {
+            public void onPermissionRationaleShouldBeShown(PermissionRequest permissionRequest,
+                                                           PermissionToken permissionToken) {
                 permissionToken.continuePermissionRequest();
             }
         }).check();

@@ -25,6 +25,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -59,6 +60,7 @@ import java.util.Locale;
 
 public class BookAppointment extends AppCompatActivity {
 
+    private static final String TAG = "Book Appointment";
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView mtvBookDate, mtvBookAddress, mtvEmptySlot,mtvGetCurrentLoc;
@@ -141,11 +143,20 @@ public class BookAppointment extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             mtvBookAddress.setText(metAddress.getText().toString());
-                            Geocoding locationAddress = new Geocoding();
-                            locationAddress.getAddressFromLocation(metAddress.getText().toString(),
-                                    getApplicationContext());
-                            latitude = String.valueOf(Geocoding.getLatitude());
-                            longitude= String.valueOf(Geocoding.getLongitude());
+
+                            //Using Geocoding API to convert address to get coordinates
+                            Geocoder geocoder = new Geocoder(BookAppointment.this, Locale.getDefault());
+                            try {
+                                //TODO::Replace with your api key
+                                List<Address> addressList = geocoder.getFromLocationName(metAddress.getText().toString()+"YOUR_API_KEY", 1);
+                                if (addressList != null && addressList.size() > 0) {
+                                    Address address = addressList.get(0);
+                                    latitude = String.valueOf(address.getLatitude());
+                                    longitude= String.valueOf(address.getLongitude());
+                                }
+                            } catch (IOException e) {
+                                Log.e(TAG, "Unable to connect to Geocoder", e);
+                            }
                             editAddressDialog.dismiss();
                         }
                     });
@@ -212,6 +223,7 @@ public class BookAppointment extends AppCompatActivity {
                     longitude = String.valueOf(lot);
 
                     try {
+                        //Convert latitude and longitude into address
                         List<Address> addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
                         String fullAddress = addresses.get(0).getAddressLine(0);
                         mtvBookAddress.setText(fullAddress);
